@@ -12,15 +12,14 @@ import {
   Text,
 } from '@radix-ui/themes';
 import React, { useEffect, useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import ReactMarkdown from 'react-markdown';
-import gfm from 'remark-gfm';
 
 import { IPrompt, IResult } from '@/app/interfaces/questions/Answers.interface';
+import { IUserQuizAnswers } from '@/app/interfaces/user/UserAnswer.interface';
 
 type IQnCardProps = {
   qnData: IResult;
   newQnToggle: boolean;
+  computePassRate: () => void;
 };
 export default function QuestionCard(props: IQnCardProps) {
   const qnData = props.qnData;
@@ -86,6 +85,17 @@ export default function QuestionCard(props: IQnCardProps) {
       `🚀 submitted: user_ans:${userAns.sort()}, correct_ans: ${qnData.correct_response.sort()}`
     );
     setSubmitted(true);
+
+    // persist results in local storage
+    const quizResult: IUserQuizAnswers = JSON.parse(
+      localStorage.getItem('quiz_assessment_2') || '{}'
+    );
+    quizResult[qnData.id] =
+      JSON.stringify(userAns.sort()) ===
+      JSON.stringify(qnData.correct_response.sort());
+    localStorage.setItem('quiz_assessment_2', JSON.stringify(quizResult));
+
+    props.computePassRate();
   }
 
   function renderHTML(html: string) {
@@ -97,6 +107,11 @@ export default function QuestionCard(props: IQnCardProps) {
     <div key={qnUniqueKey}>
       <Card className='max-w-4xl'>
         <div className='flex flex-col space-y-4 p-2'>
+          {/* category */}
+          <Text className='font-semibold underline' size='3'>
+            {qnData.section}:
+          </Text>
+
           {/* question */}
           <Text className='font-semibold' size='3'>
             {qnData.question_plain}
