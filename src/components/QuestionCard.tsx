@@ -18,16 +18,24 @@ import gfm from 'remark-gfm';
 
 import { IPrompt, IResult } from '@/app/interfaces/questions/Answers.interface';
 
-export default function QuestionCard({
-  question_plain,
-  prompt,
-  correct_response,
-}: IResult) {
+type IQnCardProps = {
+  qnData: IResult;
+  newQnToggle: boolean;
+};
+export default function QuestionCard(props: IQnCardProps) {
+  const qnData = props.qnData;
+  const newQnToggle = props.newQnToggle;
+
   const [userAns, setUserAns] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState<boolean>(false);
+  const [qnUniqueKey, SetQnUniqueKey] = useState<number | null>(null);
+
+  // reset all states when new question is loaded
   useEffect(() => {
-    console.log('🚀  userAns:', userAns);
-  }, [userAns]);
+    setUserAns([]);
+    setSubmitted(false);
+    SetQnUniqueKey(new Date().getTime()); // hack: force component to re-render to reset checkboxes
+  }, [newQnToggle]);
 
   function renderMultipleChoice(choices: string[]) {
     return choices.map((answer, index) => {
@@ -43,6 +51,7 @@ export default function QuestionCard({
         >
           <Flex>
             <Checkbox
+              defaultChecked={false}
               onCheckedChange={(checked) => {
                 const mappedChoice = String.fromCharCode(97 + index);
                 updateUserAns(checked, mappedChoice);
@@ -73,8 +82,9 @@ export default function QuestionCard({
   }
 
   function submitAns() {
-    console.log('🚀 userAns sort:', userAns.sort());
-    console.log('🚀 correctAns sort:', correct_response.sort());
+    console.log(
+      `🚀 submitted: user_ans:${userAns.sort()}, correct_ans: ${qnData.correct_response.sort()}`
+    );
     setSubmitted(true);
   }
 
@@ -84,19 +94,19 @@ export default function QuestionCard({
   }
 
   return (
-    <div>
-      <Card className='max-w-2xl'>
+    <div key={qnUniqueKey}>
+      <Card className='max-w-4xl'>
         <div className='flex flex-col space-y-4 p-2'>
           {/* question */}
           <Text className='font-semibold' size='3'>
-            {question_plain}
+            {qnData.question_plain}
           </Text>
 
           {/* options */}
           <div className='p1-2'>
-            <div className='flex flex-col gap-2'>
-              {renderMultipleChoice(prompt.answers)}
-            </div>
+            <Text className='flex flex-col gap-2 text-2xl font-medium'>
+              {renderMultipleChoice(qnData.prompt.answers)}
+            </Text>
           </div>
 
           {/* submit button */}
@@ -107,9 +117,9 @@ export default function QuestionCard({
       </Card>
 
       {submitted && (
-        <div className='mt-8 max-w-2xl space-y-4'>
+        <div className='mt-8 max-w-4xl space-y-4'>
           {JSON.stringify(userAns.sort()) ===
-          JSON.stringify(correct_response.sort()) ? (
+          JSON.stringify(qnData.correct_response.sort()) ? (
             <Badge color='green' size='2'>
               Correct
             </Badge>
@@ -121,7 +131,7 @@ export default function QuestionCard({
 
           <Box className='flex w-fit flex-row'>
             <Strong> Correct Ans:</Strong>
-            {correct_response.map((item) => (
+            {qnData.correct_response.map((item) => (
               <div key={item} className='pl-1'>
                 {item},
               </div>
@@ -129,7 +139,7 @@ export default function QuestionCard({
           </Box>
           <div
             className='mt-3'
-            dangerouslySetInnerHTML={renderHTML(prompt.explanation)}
+            dangerouslySetInnerHTML={renderHTML(qnData.prompt.explanation)}
           />
         </div>
       )}

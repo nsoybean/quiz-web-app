@@ -30,17 +30,17 @@ import data from '../data/test_2/answers.json';
 export default function Home() {
   const [qnIndex, setQnIndex] = useState<number>(0);
   const [qnData, setQnData] = useState<IResult | null>(null);
+  const [resetQnToggle, setresetQnToggle] = useState<boolean>(false);
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    console.log('🚀 qnIndex:', qnIndex);
     if (data) {
       setQnData(data.results[qnIndex]);
     }
   }, [qnIndex]);
 
   return (
-    <Theme>
+    <Theme appearance='light'>
       <main>
         <div className='min-h-screen'>
           <div className='flex flex-col items-center space-y-2 p-10'>
@@ -64,6 +64,7 @@ export default function Home() {
                   <IconButton>
                     <ArrowLeftIcon
                       onClick={() => {
+                        setresetQnToggle(!resetQnToggle);
                         setQnIndex(Math.max(0, qnIndex - 1));
                       }}
                     />
@@ -71,6 +72,7 @@ export default function Home() {
                   <IconButton>
                     <ArrowRightIcon
                       onClick={() => {
+                        setresetQnToggle(!resetQnToggle);
                         setQnIndex(
                           Math.min(data.results.length - 1, qnIndex + 1)
                         );
@@ -81,7 +83,9 @@ export default function Home() {
               </div>
 
               {/* Card */}
-              {qnData && <QuestionCard {...qnData} />}
+              {qnData && (
+                <QuestionCard qnData={qnData} newQnToggle={resetQnToggle} />
+              )}
             </div>
 
             {/* theme panel */}
