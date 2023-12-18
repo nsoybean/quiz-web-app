@@ -26,7 +26,7 @@ import QuestionCard from '@/components/QuestionCard';
 import { IAnswers, IResult } from './interfaces/questions/Answers.interface';
 
 dotenv.config();
-import * as data from '../data/test_2/answers.json';
+import data from '../data/test_2/answers.json';
 // let data: IAnswers;
 // if (process.env.FILEPATH) {
 //   console.log('🚀  process.env.FILEPATH:', process.env.FILEPATH);
@@ -50,42 +50,52 @@ export default function Home() {
   return (
     <Theme>
       <main>
-        {/* <Container className='border-1 min-h-screen bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-rose-100 to-teal-100'> */}
-        <Container className='min-h-screen'>
-          <Flex className='flex-col items-center space-y-4 p-10'>
+        <div className='min-h-screen'>
+          <div className='flex flex-col items-center space-y-2 p-10'>
             {/* Header */}
-            <Flex className='flex-col items-center'>
-              <Text size='8'>
+            <div className='flex flex-col items-center'>
+              <Text className='' size='8'>
                 <Strong>AWS Quiz </Strong>
               </Text>
-              Select your test and start answering questions!
-            </Flex>
+              <Text className=''>
+                Select your test and start answering questions!
+              </Text>
+            </div>
 
             {/* Navigation */}
-            <Flex className='space-x-2'>
-              <IconButton>
-                <ArrowLeftIcon
-                  onClick={() => {
-                    setQnIndex(Math.max(0, qnIndex - 1));
-                  }}
-                />
-              </IconButton>
-              <IconButton>
-                <ArrowRightIcon
-                  onClick={() => {
-                    setQnIndex(Math.min(data.results.length - 1, qnIndex + 1));
-                  }}
-                />
-              </IconButton>
-            </Flex>
+            <div className='space-y-2  '>
+              <div className='flex flex-row items-center justify-between space-x-3'>
+                <Text className='px-3'>
+                  {qnIndex + 1} / {data.count - 1}
+                </Text>
+                <div className='space-x-1 px-3'>
+                  <IconButton>
+                    <ArrowLeftIcon
+                      onClick={() => {
+                        setQnIndex(Math.max(0, qnIndex - 1));
+                      }}
+                    />
+                  </IconButton>
+                  <IconButton>
+                    <ArrowRightIcon
+                      onClick={() => {
+                        setQnIndex(
+                          Math.min(data.results.length - 1, qnIndex + 1)
+                        );
+                      }}
+                    />
+                  </IconButton>
+                </div>
+              </div>
 
-            {/* Card */}
-            {qnData && <QuestionCard {...qnData} />}
+              {/* Card */}
+              {qnData && <QuestionCard {...qnData} />}
+            </div>
 
             {/* theme panel */}
             <ThemePanel />
-          </Flex>
-        </Container>
+          </div>
+        </div>
       </main>
     </Theme>
   );

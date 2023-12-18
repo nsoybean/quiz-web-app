@@ -30,24 +30,24 @@ export default function QuestionCard({ question_plain, prompt }: IResult) {
   return (
     <Box>
       <Card className='max-w-lg'>
-        <Flex className='flex-col space-y-4'>
+        <div className='flex flex-col space-y-4'>
           {/* question */}
           <Text size='3'>{question_plain}</Text>
 
           {/* options */}
-          <Flex className='pl-2'>
+          <div className='pl-2'>
             <RadioGroup.Root
               defaultValue='0'
               onValueChange={(e) => {
                 setUserAns([e]);
               }}
             >
-              <Flex gap='2' direction='column'>
+              <div className='flex flex-col gap-3'>
                 {renderMultipleChoice(prompt.answers)}
-              </Flex>
+              </div>
             </RadioGroup.Root>
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       </Card>
     </Box>
   );
