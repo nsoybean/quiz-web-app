@@ -4,13 +4,6 @@ import '@radix-ui/themes/styles.css';
 import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 import {
   Avatar,
-  Box,
-  Button,
-  Card,
-  Container,
-  Em,
-  Flex,
-  Heading,
   IconButton,
   Strong,
   Text,
@@ -23,7 +16,7 @@ import { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import QuestionCard from '@/components/QuestionCard';
 
-import { IAnswers, IResult } from './interfaces/questions/Answers.interface';
+import { IResult } from './interfaces/questions/Answers.interface';
 
 dotenv.config();
 import data from '../data/test_2/answers.json';
