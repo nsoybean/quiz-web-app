@@ -59,7 +59,7 @@ export default function Home() {
             <div className='space-y-2  '>
               <div className='flex flex-row items-center justify-between space-x-3'>
                 <Text className='px-3'>
-                  {qnIndex + 1} / {data.count - 1}
+                  {qnIndex + 1} / {data.count}
                 </Text>
                 <div className='space-x-1 px-3'>
                   <IconButton>
