@@ -13,7 +13,6 @@ import {
 import dotenv from 'dotenv';
 import { useEffect, useState } from 'react';
 
-import Header from '@/components/Header';
 import QuestionCard from '@/components/QuestionCard';
 
 import { IResult } from './interfaces/questions/Answers.interface';
