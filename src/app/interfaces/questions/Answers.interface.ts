@@ -15,7 +15,7 @@ export interface IResult {
   related_lectures: string[];
 }
 
-interface IPrompt {
+export interface IPrompt {
   question: string;
   relatedLectureIds: string;
   feedbacks: string[];
