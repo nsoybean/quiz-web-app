@@ -46,12 +46,10 @@ export default function Home() {
           <div className='flex flex-col items-center space-y-2 p-10'>
             {/* Header */}
             <div className='flex flex-col items-center'>
-              <Text className='' size='8'>
-                <Strong>AWS Quiz </Strong>
+              <Text size='8'>
+                <Strong> AWS Quiz </Strong>
               </Text>
-              <Text className=''>
-                Select your test and start answering questions!
-              </Text>
+              <Text>Select your test and start answering questions!</Text>
             </div>
 
             {/* Navigation */}
