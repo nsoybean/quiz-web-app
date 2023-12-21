@@ -1,20 +1,20 @@
+'use client';
+
 import { CheckedState } from '@radix-ui/react-checkbox';
-import { BookmarkIcon, CheckIcon, PaperPlaneIcon } from '@radix-ui/react-icons';
+import { PaperPlaneIcon } from '@radix-ui/react-icons';
 import {
   Badge,
   Box,
   Button,
   Card,
   Checkbox,
-  Flex,
-  RadioGroup,
   Strong,
   Text,
 } from '@radix-ui/themes';
 import React, { useEffect, useState } from 'react';
 
-import { IPrompt, IResult } from '@/app/interfaces/questions/Answers.interface';
-import { IUserQuizAnswers } from '@/app/interfaces/user/UserAnswer.interface';
+import { IResult } from '../interfaces/questions/Answers.interface';
+import { IUserQuizAnswers } from '../interfaces/user/UserAnswer.interface';
 
 type IQnCardProps = {
   qnData: IResult;
@@ -42,26 +42,18 @@ export default function QuestionCard(props: IQnCardProps) {
       const dangerouslySetInnerHTMLObject = { __html: answer };
 
       return (
-        <Text
-          key={index}
-          as='label'
-          size='2'
-          className='rounded-md border-2 p-3'
-        >
-          <Flex>
-            <Checkbox
-              defaultChecked={false}
-              onCheckedChange={(checked) => {
-                const mappedChoice = String.fromCharCode(97 + index);
-                updateUserAns(checked, mappedChoice);
-              }}
-            />
-            <div
-              className='pl-3'
-              dangerouslySetInnerHTML={dangerouslySetInnerHTMLObject}
-            />
-          </Flex>
-        </Text>
+        <div key={index} className='flex border-2'>
+          <Checkbox
+            defaultChecked={false}
+            onCheckedChange={(checked) => {
+              const mappedChoice = String.fromCharCode(97 + index);
+              updateUserAns(checked, mappedChoice);
+            }}
+          />
+          <Text size='2'>
+            <div dangerouslySetInnerHTML={dangerouslySetInnerHTMLObject} />
+          </Text>
+        </div>
       );
     });
   }
@@ -105,7 +97,7 @@ export default function QuestionCard(props: IQnCardProps) {
 
   return (
     <div key={qnUniqueKey}>
-      <Card className='max-w-4xl'>
+      <Card className='max-w-5xl'>
         <div className='flex flex-col space-y-4 p-2'>
           {/* category */}
           <Text className='font-semibold underline' size='3'>
@@ -113,19 +105,16 @@ export default function QuestionCard(props: IQnCardProps) {
           </Text>
 
           {/* question */}
-          <Text className='font-semibold' size='3'>
-            {qnData.question_plain}
-          </Text>
+          <div
+            className='font-semibold'
+            dangerouslySetInnerHTML={renderHTML(qnData.prompt.question)}
+          />
 
           {/* options */}
-          <div className='p1-2'>
-            <Text className='flex flex-col gap-2 text-2xl font-medium'>
-              {renderMultipleChoice(qnData.prompt.answers)}
-            </Text>
-          </div>
+          <div>{renderMultipleChoice(qnData.prompt.answers)}</div>
 
           {/* submit button */}
-          <Button className='flex w-fit self-end' onClick={submitAns}>
+          <Button className='w-fit self-end' onClick={submitAns}>
             <PaperPlaneIcon width='16' height='16' /> Submit
           </Button>
         </div>
