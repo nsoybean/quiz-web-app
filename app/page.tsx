@@ -12,6 +12,7 @@ import dotenv from 'dotenv';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
+import GithubCorner from 'react-github-corner';
 
 dotenv.config();
 
@@ -58,6 +59,11 @@ export default function Home() {
   return (
     <div className='center flex min-h-screen  flex-col items-center justify-center space-y-6 border-2'>
       <ThemePanel />
+      <GithubCorner
+        href='https://github.com/nsoybean/quiz-web-app'
+        direction='left'
+        target='_blank'
+      />
       {/* hero section */}
       <div className='flex w-2/3 flex-col items-center text-center'>
         <div className='bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-3xl font-bold tracking-tighter text-transparent sm:text-5xl xl:text-6xl/none'>
