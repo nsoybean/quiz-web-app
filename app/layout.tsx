@@ -8,8 +8,9 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'AWS Quiz',
-  description: 'Client for AWS Q&A',
+  title: 'Interactive Quiz Maker',
+  description:
+    'Upload a JSON file to create your own interactive quiz. Easy, quick and fun',
 };
 
 export default function RootLayout({
@@ -20,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <Theme> {children} </Theme>
+        <Theme appearance='light'> {children} </Theme>
       </body>
     </html>
   );
