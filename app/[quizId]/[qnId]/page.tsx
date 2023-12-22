@@ -1,10 +1,6 @@
 'use client';
 
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  EraserIcon,
-} from '@radix-ui/react-icons';
+import { ArrowLeftIcon, ArrowRightIcon } from '@radix-ui/react-icons';
 import { Badge, IconButton, Strong, Text } from '@radix-ui/themes';
 import dotenv from 'dotenv';
 import Link from 'next/link';
@@ -102,6 +98,7 @@ export default function Page({
           {/* Card */}
           {qnData && (
             <QuestionCard
+              quizId={params.quizId}
               qnData={qnData}
               newQnToggle={resetQnToggle}
               computePassRate={calculatePassRate}
@@ -122,20 +119,7 @@ export default function Page({
               </Badge>
             )}
           </div>
-          <div className='flex w-fit flex-row'>
-            <IconButton
-              onClick={() => {
-                localStorage.removeItem('quiz_assessment_2');
-              }}
-              color='red'
-            >
-              <EraserIcon />
-            </IconButton>
-          </div>
         </div>
-
-        {/* theme panel */}
-        {/* <ThemePanel /> */}
       </div>
     </div>
   );

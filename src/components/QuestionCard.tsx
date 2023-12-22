@@ -17,6 +17,7 @@ import { IResult } from '../interfaces/questions/Answers.interface';
 import { IUserQuizAnswers } from '../interfaces/user/UserAnswer.interface';
 
 type IQnCardProps = {
+  quizId: string;
   qnData: IResult;
   newQnToggle: boolean;
   computePassRate: () => void;
@@ -80,12 +81,12 @@ export default function QuestionCard(props: IQnCardProps) {
 
     // persist results in local storage
     const quizResult: IUserQuizAnswers = JSON.parse(
-      localStorage.getItem('quiz_assessment_2') || '{}'
+      localStorage.getItem(`quiz_${props.quizId}`) || '{}'
     );
     quizResult[qnData.id] =
       JSON.stringify(userAns.sort()) ===
       JSON.stringify(qnData.correct_response.sort());
-    localStorage.setItem('quiz_assessment_2', JSON.stringify(quizResult));
+    localStorage.setItem(`quiz_${props.quizId}`, JSON.stringify(quizResult));
 
     props.computePassRate();
   }
